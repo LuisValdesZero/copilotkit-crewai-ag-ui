@@ -42,7 +42,7 @@ tools = [
 ]
 
 tool_handlers = {
-    "get_weather": lambda args: f"The weather for {args['location']} is 70 degrees, clear skies, 45% humidity, 5 mph wind, and feels like 72 degrees."
+    "get_weather": lambda args: f"The weather for {args['location']} is 21 degrees Celsius, clear skies, 45% humidity, 5 mph wind, and feels like 72 degrees."
     # your tool handler here
 }
 
