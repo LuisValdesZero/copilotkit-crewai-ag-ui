@@ -6,6 +6,9 @@ import json
 from litellm import completion
 from crewai.flow.flow import Flow, start, router, listen
 from ag_ui_crewai.sdk import copilotkit_stream, CopilotKitState
+from crewai import Crew, Process
+from crewai.project import CrewBase, agent, crew, task
+from app.tools.weather_tool import GetWeatherTool
 
 class AgentState(CopilotKitState):
     """
@@ -46,10 +49,38 @@ tool_handlers = {
     # your tool handler here
 }
 
+@CrewBase
+class WeatherCrew:
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+
+    @agent
+    def weather_agent(self) -> agent.Agent:
+        return agent.Agent(
+            config=self.agents_config["weather_agent"],
+            tools=[GetWeatherTool()]
+        )
+
+    @task
+    def get_weather_task(self) -> task.Task:
+        return task.Task(
+            config=self.tasks_config["get_weather_task"],
+        )
+
+    @crew
+    def crew(self) -> crew.Crew:
+        return crew.Crew(
+            agents=self.agents,
+            tasks=self.tasks,
+            process=Process.sequential,
+            verbose=True,
+        )
+
 class SampleAgentFlow(Flow[AgentState]):
     """
     This is a sample flow that uses the CopilotKit framework to create a chat agent.
     """
+    weather_crew = WeatherCrew()
 
     @start()
     @listen("route_follow_up")
