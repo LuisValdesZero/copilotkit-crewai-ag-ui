@@ -29,4 +29,4 @@ python-dotenv = "1.0.1"
 uvicorn = "0.34.3"
 
 [tool.poetry.scripts]
-server = "sample_agent.server:main"
+server = "sample_agent.main:main"

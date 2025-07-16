@@ -1,0 +1,6 @@
+get_weather_task:
+  description: >
+    Retrieve the current weather for {location}.
+  expected_output: >
+    A string describing the current weather in {location}.
+  agent: weather_agent 
